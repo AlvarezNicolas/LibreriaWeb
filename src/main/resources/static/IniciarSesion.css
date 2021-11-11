@@ -1,0 +1,24 @@
+nav{
+    width: 150%;
+}
+form{
+    margin: 0 auto;
+    margin-top: 2cm;
+    width: 40%;
+    color: midnightblue;
+}
+body{
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: cover;
+    background-image: url("https://resizer.glanacion.com/resizer/bVNHVMT9AIv2K3RvZ4dESPBpLpM=/879x586/smart/filters:quality(80)/cloudfront-us-east-1.images.arcpublishing.com/lanacionar/ISIGS4JOBVH6RNHBI2JQY3KGZA.jpg")
+}
+footer {
+  background-color: transparent;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  color: white;
+}

@@ -1,0 +1,8 @@
+h1{
+    text-align: center;
+    background-color: transparent;
+    margin-top: 1cm;
+}
+body{
+    background: linear-gradient(45deg, lightblue, grey, white);
+}

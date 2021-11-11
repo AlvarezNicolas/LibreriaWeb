@@ -1,0 +1,19 @@
+body{
+    background-image: url("https://viajes.nationalgeographic.com.es/medio/2020/11/12/1-libreria-lello_cf018156_1000x667.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+footer {
+  background-color: transparent;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  color: white;
+}
+#volver{
+    margin-left: auto;
+}
+table{
+    ;
+}

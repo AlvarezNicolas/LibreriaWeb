@@ -1,0 +1,25 @@
+#formulario{
+    margin-left: 5%;
+    margin-top: 2%;
+    width: 40%;
+}
+body{
+    background-image: url("https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/gallery/5bd866ce5bafe8c43a3c986c/galeria-escritores_0.jpg");
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-size: 100%;
+}
+footer {
+    text-align: left;
+    background-color: transparent;
+    position: absolute;
+    bottom: 0;
+    width: 80%;
+    height: 3px;
+    color: white;
+    right: 0;
+    margin-bottom: 3px;
+}
+h3{
+    text-align: center;
+}
