@@ -5,10 +5,16 @@
  */
 package LibreriaWeb.Entidades;
 
+import LibreriaWeb.Enumeraciones.Sexo;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -25,103 +31,178 @@ public class Cliente implements Serializable {
     private long documento;
     private String nombre;
     private String apellido;
-//    private String sexo;
     private String telefono;
-    private boolean alta;
     private String contrasenia1;
-    private String contrasenia2;
+    private String email;
+    
+    @Enumerated(EnumType.STRING)
+    private Sexo sexo;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date alta;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date baja;
+    
     public Cliente() {
     }
 
-    public Cliente(String id, long documento, String nombre, String apellido, String telefono, boolean alta, String contrasenia1, String contrasenia2) {
+    public Cliente(String id, long documento, String nombre, String apellido, String telefono, String contrasenia1, String email, Date alta, Date baja) {
         this.id = id;
         this.documento = documento;
         this.nombre = nombre;
         this.apellido = apellido;
-//        this.sexo = sexo;
         this.telefono = telefono;
-        this.alta = alta;
         this.contrasenia1 = contrasenia1;
-        this.contrasenia2 = contrasenia2;
+        this.email = email;
+        this.alta = alta;
+        this.baja = baja;
     }
 
+    /**
+     * @return the id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @param id the id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * @return the documento
+     */
     public long getDocumento() {
         return documento;
     }
 
+    /**
+     * @param documento the documento to set
+     */
     public void setDocumento(long documento) {
         this.documento = documento;
     }
 
+    /**
+     * @return the nombre
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * @param nombre the nombre to set
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * @return the apellido
+     */
     public String getApellido() {
         return apellido;
     }
 
+    /**
+     * @param apellido the apellido to set
+     */
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
 
-//    public String getSexo() {
-//        return sexo;
-//    }
-//
-//    public void setSexo(String sexo) {
-//        this.sexo = sexo;
-//    }
-
+    /**
+     * @return the telefono
+     */
     public String getTelefono() {
         return telefono;
     }
 
+    /**
+     * @param telefono the telefono to set
+     */
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
-    public boolean isAlta() {
-        return alta;
-    }
-
-    public void setAlta(boolean alta) {
-        this.alta = alta;
-    }
-
+    /**
+     * @return the contrasenia1
+     */
     public String getContrasenia1() {
         return contrasenia1;
     }
 
+    /**
+     * @param contrasenia1 the contrasenia1 to set
+     */
     public void setContrasenia1(String contrasenia1) {
         this.contrasenia1 = contrasenia1;
     }
 
-    public String getContrasenia2() {
-        return contrasenia2;
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
     }
 
-    public void setContrasenia2(String contrasenia2) {
-        this.contrasenia2 = contrasenia2;
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * @return the sexo
+     */
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    /**
+     * @param sexo the sexo to set
+     */
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
+    }
+
+    /**
+     * @return the alta
+     */
+    public Date getAlta() {
+        return alta;
+    }
+
+    /**
+     * @param alta the alta to set
+     */
+    public void setAlta(Date alta) {
+        this.alta = alta;
+    }
+
+    /**
+     * @return the baja
+     */
+    public Date getBaja() {
+        return baja;
+    }
+
+    /**
+     * @param baja the baja to set
+     */
+    public void setBaja(Date baja) {
+        this.baja = baja;
     }
 
     @Override
     public String toString() {
-        return "Cliente{" + "id=" + id + ", documento=" + documento + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", alta=" + alta + ", contrasenia1=" + contrasenia1 + ", contrasenia2=" + contrasenia2 + '}';
+        return "Cliente{" + "id=" + id + ", documento=" + documento + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", contrasenia1=" + contrasenia1 + ", email=" + email + ", sexo=" + sexo + ", alta=" + alta + ", baja=" + baja + '}';
     }
 
-    
+   
 }

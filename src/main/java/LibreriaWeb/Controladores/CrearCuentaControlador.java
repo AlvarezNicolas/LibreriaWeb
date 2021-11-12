@@ -47,7 +47,7 @@ public class CrearCuentaControlador {
             return "redirect:/IniciarSesion";
         } catch (Exception ex) {
             Logger.getLogger(CrearCuentaControlador.class.getName()).log(Level.SEVERE, null, ex);
-            modelo.put("error", "Falto ingresar algun dato del usuario");
+            modelo.put("error", ex.getMessage());
             return "redirect:/CrearCuenta";
         }
     }

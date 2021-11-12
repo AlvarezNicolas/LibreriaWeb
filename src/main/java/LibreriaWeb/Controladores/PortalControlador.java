@@ -22,5 +22,4 @@ public class PortalControlador {
     public ModelAndView inicio() {
         return new ModelAndView("index");
     }
-
 }
