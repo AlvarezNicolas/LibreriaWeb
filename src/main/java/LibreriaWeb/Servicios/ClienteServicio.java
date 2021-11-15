@@ -38,6 +38,9 @@ public class ClienteServicio implements UserDetailsService {
 
     @Autowired
     private FotoServicio fotoServicio;
+    
+    @Autowired
+    private NotificacionServicio notificacionServicio;
 
     @Transactional
     public void crearCliente(MultipartFile archivo, String nombre, String apellido, long documento, String email, String telefono, String contrasenia1, Sexo sexo) throws ErrorServicio {
@@ -59,8 +62,11 @@ public class ClienteServicio implements UserDetailsService {
         cliente.setFoto(foto);
 
         clienterepositorio.save(cliente);
+        
+        notificacionServicio.enviar("Usted se a creado una cuenta en el portal de libros, podra disfrutar de todos ellos en un solo lugar", "Bienvenido a History Book", cliente.getEmail());
     }
 
+    @Transactional
     public void modificarCliente(MultipartFile archivo, String id, String nombre, String apellido, String email, String telefono, String contrasenia1, Sexo sexo) throws ErrorServicio {
 
         validar(nombre, apellido, email, telefono, contrasenia1, sexo);
@@ -85,11 +91,14 @@ public class ClienteServicio implements UserDetailsService {
             cliente.setFoto(foto);
 
             clienterepositorio.save(cliente);
+            
+            notificacionServicio.enviar("Usted a modificado los datos de su cuenta con exito", "Modificacion cuenta", cliente.getEmail());
         } else {
             throw new ErrorServicio("No se encontro el usuario solicitado");
         }
     }
 
+    @Transactional
     public void deshabilitar(String id) throws ErrorServicio {
         Optional<Cliente> respuesta = clienterepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -97,11 +106,14 @@ public class ClienteServicio implements UserDetailsService {
             cliente.setBaja(new Date());
 
             clienterepositorio.save(cliente);
+            
+            notificacionServicio.enviar("Su cuenta a sido dada de baja, lamentamos no poder cumplir con todas sus expectativas. Estamos en constante crecimiento para tratar de satisfacer las doferentes necesidades de todos nuestros usuarios", "BAJA CUENTA", cliente.getEmail());
         } else {
             throw new ErrorServicio("No se encontro el usuario solicitado");
         }
     }
 
+    @Transactional
     public void habilitar(String id) throws ErrorServicio {
         Optional<Cliente> respuesta = clienterepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -109,6 +121,8 @@ public class ClienteServicio implements UserDetailsService {
             cliente.setBaja(null);
 
             clienterepositorio.save(cliente);
+            
+            notificacionServicio.enviar("Su cuenta a sido dada de alta, nos alegra tenerlo con nosotros nuevamente", "ALTA CUENTA", cliente.getEmail());
         } else {
             throw new ErrorServicio("No se encontro el usuario solicitado");
         }

@@ -105,7 +105,6 @@ public class LibroServicio {
         return libros;
     }
 
-    @Transactional
     public Libro listarLibro(String id) {
         return libroRepositorio.buscarPorId(id);
     }
