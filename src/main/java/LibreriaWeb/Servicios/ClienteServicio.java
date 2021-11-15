@@ -6,6 +6,8 @@
 package LibreriaWeb.Servicios;
 
 import LibreriaWeb.Entidades.Cliente;
+import LibreriaWeb.Entidades.Foto;
+import LibreriaWeb.Enumeraciones.Sexo;
 import LibreriaWeb.Errores.ErrorServicio;
 import LibreriaWeb.Repositorios.ClienteRepositorio;
 import java.util.Date;
@@ -13,6 +15,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -23,11 +26,14 @@ public class ClienteServicio {
 
     @Autowired
     private ClienteRepositorio clienterepositorio;
+    
+    @Autowired
+    private FotoServicio fotoServicio;
 
     @Transactional
-    public void crearCliente(String nombre, String apellido, long documento, String email, String telefono, String contrasenia1) throws ErrorServicio {
+    public void crearCliente(MultipartFile archivo, String nombre, String apellido, long documento, String email, String telefono, String contrasenia1, Sexo sexo) throws ErrorServicio {
 
-        validar(nombre, apellido, email, telefono, contrasenia1);
+        validar(nombre, apellido, email, telefono, contrasenia1, sexo);
 
         Cliente cliente = new Cliente();
         cliente.setDocumento(documento);
@@ -36,14 +42,18 @@ public class ClienteServicio {
         cliente.setTelefono(telefono);
         cliente.setContrasenia1(contrasenia1);
         cliente.setEmail(email);
+        cliente.setSexo(sexo);
         cliente.setAlta(new Date());
-
+        
+        Foto foto = fotoServicio.guardar(archivo);
+        cliente.setFoto(foto);
+        
         clienterepositorio.save(cliente);
     }
 
-    public void modificarCliente(String id, String nombre, String apellido, String email, String telefono, String contrasenia1) throws ErrorServicio {
+    public void modificarCliente(MultipartFile archivo, String id, String nombre, String apellido, String email, String telefono, String contrasenia1, Sexo sexo) throws ErrorServicio {
 
-        validar(nombre, apellido, email, telefono, contrasenia1);
+        validar(nombre, apellido, email, telefono, contrasenia1, sexo);
 
         Optional<Cliente> respuesta = clienterepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -53,6 +63,15 @@ public class ClienteServicio {
             cliente.setEmail(email);
             cliente.setTelefono(telefono);
             cliente.setContrasenia1(contrasenia1);
+            cliente.setSexo(sexo);
+            
+            String idFoto = null;
+            if (cliente.getFoto() != null) {
+                idFoto = cliente.getFoto().getId();
+            }
+            
+            Foto foto = fotoServicio.actualizar(idFoto, archivo);
+            cliente.setFoto(foto);
 
             clienterepositorio.save(cliente);
         } else {
@@ -84,7 +103,7 @@ public class ClienteServicio {
         }
     }
 
-    public void validar(String nombre, String apellido, String email, String telefono, String contrasenia1) throws ErrorServicio {
+    public void validar(String nombre, String apellido, String email, String telefono, String contrasenia1, Sexo sexo) throws ErrorServicio {
 
         if (nombre == null || nombre.isEmpty()) {
             throw new ErrorServicio("El nombre no puede estar vacio");
@@ -100,6 +119,9 @@ public class ClienteServicio {
         }
         if (contrasenia1 == null || contrasenia1.isEmpty() || contrasenia1.length() <= 6) {
             throw new ErrorServicio("La contraseña no puede estar vacia o es menor a 6 caracteres");
+        }
+        if (sexo == null) {
+            throw new ErrorServicio("Debe seleccionar una opcion en genero");
         }
     }
 }

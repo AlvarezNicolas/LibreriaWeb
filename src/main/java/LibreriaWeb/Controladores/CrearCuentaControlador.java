@@ -5,7 +5,7 @@
  */
 package LibreriaWeb.Controladores;
 
-import LibreriaWeb.Entidades.Cliente;
+import LibreriaWeb.Enumeraciones.Sexo;
 import LibreriaWeb.Servicios.ClienteServicio;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +42,7 @@ public class CrearCuentaControlador {
                                            @RequestParam @Nullable String contrasenia1, 
                                            @RequestParam @Nullable String contrasenia2) throws Exception {
         try {
-            cl.CrearCliente(nombre, apellido, documento, telefono, contrasenia1, contrasenia2);
+            cl.crearCliente(nombre, apellido, 0, nombre, telefono, contrasenia1, Sexo.FEMENINO);
             modelo.put("exito", "Registro exitoso");
             return "redirect:/IniciarSesion";
         } catch (Exception ex) {

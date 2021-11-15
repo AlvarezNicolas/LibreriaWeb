@@ -13,6 +13,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
@@ -43,6 +44,9 @@ public class Cliente implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date baja;
+    
+    @OneToOne
+    private Foto foto;
     
     public Cliente() {
     }
@@ -199,10 +203,17 @@ public class Cliente implements Serializable {
         this.baja = baja;
     }
 
-    @Override
-    public String toString() {
-        return "Cliente{" + "id=" + id + ", documento=" + documento + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", contrasenia1=" + contrasenia1 + ", email=" + email + ", sexo=" + sexo + ", alta=" + alta + ", baja=" + baja + '}';
+    public Foto getFoto() {
+        return foto;
     }
 
-   
+    public void setFoto(Foto foto) {
+        this.foto = foto;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" + "id=" + id + ", documento=" + documento + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", contrasenia1=" + contrasenia1 + ", email=" + email + ", sexo=" + sexo + ", alta=" + alta + ", baja=" + baja + ", foto=" + foto + '}';
+    }
+
 }
