@@ -44,12 +44,13 @@ public class LibroControlador {
             Editorial editorial = new Editorial();
             editorial.setNombre(NombreEditorial);
             ls.PersistirLibro(titulo, anio, isbn, ejemplares, autor, editorial, Boolean.TRUE);
-            modelo.put("exito", "Registro exitoso");
-            return "redirect:/CargarLibro";
+
         } catch (Exception ex) {
             Logger.getLogger(LibroControlador.class.getName()).log(Level.SEVERE, null, ex);
-            modelo.put("error", "Falto ingresar algun dato del libro");
-            return "redirect:/";
+            modelo.put("error", ex.getMessage());
+            return "/CargarLibro";
         }
+        modelo.put("exito", "El libro se ha registrado exitosamente");
+        return "/CargarLibro";
     }
 }

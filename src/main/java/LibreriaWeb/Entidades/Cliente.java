@@ -34,6 +34,7 @@ public class Cliente implements Serializable {
     private String apellido;
     private String telefono;
     private String contrasenia1;
+    private String contrasenia2;
     private String email;
     
     @Enumerated(EnumType.STRING)
@@ -51,154 +52,105 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(String id, long documento, String nombre, String apellido, String telefono, String contrasenia1, String email, Date alta, Date baja) {
+    public Cliente(String id, long documento, String nombre, String apellido, String telefono, String contrasenia1, String contrasenia2, String email, Sexo sexo, Date alta, Date baja, Foto foto) {
         this.id = id;
         this.documento = documento;
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.contrasenia1 = contrasenia1;
+        this.contrasenia2 = contrasenia2;
         this.email = email;
+        this.sexo = sexo;
         this.alta = alta;
         this.baja = baja;
+        this.foto = foto;
     }
 
-    /**
-     * @return the id
-     */
     public String getId() {
         return id;
     }
 
-    /**
-     * @param id the id to set
-     */
     public void setId(String id) {
         this.id = id;
     }
 
-    /**
-     * @return the documento
-     */
     public long getDocumento() {
         return documento;
     }
 
-    /**
-     * @param documento the documento to set
-     */
     public void setDocumento(long documento) {
         this.documento = documento;
     }
 
-    /**
-     * @return the nombre
-     */
     public String getNombre() {
         return nombre;
     }
 
-    /**
-     * @param nombre the nombre to set
-     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    /**
-     * @return the apellido
-     */
     public String getApellido() {
         return apellido;
     }
 
-    /**
-     * @param apellido the apellido to set
-     */
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
 
-    /**
-     * @return the telefono
-     */
     public String getTelefono() {
         return telefono;
     }
 
-    /**
-     * @param telefono the telefono to set
-     */
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
-    /**
-     * @return the contrasenia1
-     */
     public String getContrasenia1() {
         return contrasenia1;
     }
 
-    /**
-     * @param contrasenia1 the contrasenia1 to set
-     */
     public void setContrasenia1(String contrasenia1) {
         this.contrasenia1 = contrasenia1;
     }
 
-    /**
-     * @return the email
-     */
+    public String getContrasenia2() {
+        return contrasenia2;
+    }
+
+    public void setContrasenia2(String contrasenia2) {
+        this.contrasenia2 = contrasenia2;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    /**
-     * @param email the email to set
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * @return the sexo
-     */
     public Sexo getSexo() {
         return sexo;
     }
 
-    /**
-     * @param sexo the sexo to set
-     */
     public void setSexo(Sexo sexo) {
         this.sexo = sexo;
     }
 
-    /**
-     * @return the alta
-     */
     public Date getAlta() {
         return alta;
     }
 
-    /**
-     * @param alta the alta to set
-     */
     public void setAlta(Date alta) {
         this.alta = alta;
     }
 
-    /**
-     * @return the baja
-     */
     public Date getBaja() {
         return baja;
     }
 
-    /**
-     * @param baja the baja to set
-     */
     public void setBaja(Date baja) {
         this.baja = baja;
     }
@@ -213,7 +165,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "Cliente{" + "id=" + id + ", documento=" + documento + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", contrasenia1=" + contrasenia1 + ", email=" + email + ", sexo=" + sexo + ", alta=" + alta + ", baja=" + baja + ", foto=" + foto + '}';
+        return "Cliente{" + "id=" + id + ", documento=" + documento + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", contrasenia1=" + contrasenia1 + ", contrasenia2=" + contrasenia2 + ", email=" + email + ", sexo=" + sexo + ", alta=" + alta + ", baja=" + baja + ", foto=" + foto + '}';
     }
-
+    
 }

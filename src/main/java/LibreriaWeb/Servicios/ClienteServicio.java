@@ -34,44 +34,45 @@ import org.springframework.web.multipart.MultipartFile;
 public class ClienteServicio implements UserDetailsService {
 
     @Autowired
-    private ClienteRepositorio clienterepositorio;
+    private ClienteRepositorio clienteRepositorio;
 
     @Autowired
     private FotoServicio fotoServicio;
-    
+
     @Autowired
     private NotificacionServicio notificacionServicio;
 
     @Transactional
-    public void crearCliente(MultipartFile archivo, String nombre, String apellido, long documento, String email, String telefono, String contrasenia1, Sexo sexo) throws ErrorServicio {
+    public void crearCliente(MultipartFile archivo, String nombre, String apellido, long documento, String email, String telefono, String contrasenia1, String contrasenia2) throws ErrorServicio {
 
-        validar(nombre, apellido, email, telefono, contrasenia1, sexo);
+        validar(nombre, apellido, email, telefono, contrasenia1, contrasenia2);
 
         Cliente cliente = new Cliente();
         cliente.setDocumento(documento);
         cliente.setNombre(nombre);
         cliente.setApellido(apellido);
         cliente.setTelefono(telefono);
-        String encriptada = new BCryptPasswordEncoder().encode(contrasenia1);
-        cliente.setContrasenia1(encriptada);
+        String encriptada1 = new BCryptPasswordEncoder().encode(contrasenia1);
+        cliente.setContrasenia1(encriptada1);
+        String encriptada2 = new BCryptPasswordEncoder().encode(contrasenia2);
+        cliente.setContrasenia1(encriptada2);
         cliente.setEmail(email);
-        cliente.setSexo(sexo);
         cliente.setAlta(new Date());
 
         Foto foto = fotoServicio.guardar(archivo);
         cliente.setFoto(foto);
 
-        clienterepositorio.save(cliente);
-        
+        clienteRepositorio.save(cliente);
+
         notificacionServicio.enviar("Usted se a creado una cuenta en el portal de libros, podra disfrutar de todos ellos en un solo lugar", "Bienvenido a History Book", cliente.getEmail());
     }
 
     @Transactional
-    public void modificarCliente(MultipartFile archivo, String id, String nombre, String apellido, String email, String telefono, String contrasenia1, Sexo sexo) throws ErrorServicio {
+    public void modificarCliente(MultipartFile archivo, String id, String nombre, String apellido, String email, String telefono, String contrasenia1, String contrasenia2) throws ErrorServicio {
 
-        validar(nombre, apellido, email, telefono, contrasenia1, sexo);
+        validar(nombre, apellido, email, telefono, contrasenia1, contrasenia2);
 
-        Optional<Cliente> respuesta = clienterepositorio.findById(id);
+        Optional<Cliente> respuesta = clienteRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Cliente cliente = respuesta.get();
             cliente.setNombre(nombre);
@@ -80,7 +81,6 @@ public class ClienteServicio implements UserDetailsService {
             cliente.setTelefono(telefono);
             String encriptada = new BCryptPasswordEncoder().encode(contrasenia1);
             cliente.setContrasenia1(encriptada);
-            cliente.setSexo(sexo);
 
             String idFoto = null;
             if (cliente.getFoto() != null) {
@@ -90,8 +90,8 @@ public class ClienteServicio implements UserDetailsService {
             Foto foto = fotoServicio.actualizar(idFoto, archivo);
             cliente.setFoto(foto);
 
-            clienterepositorio.save(cliente);
-            
+            clienteRepositorio.save(cliente);
+
             notificacionServicio.enviar("Usted a modificado los datos de su cuenta con exito", "Modificacion cuenta", cliente.getEmail());
         } else {
             throw new ErrorServicio("No se encontro el usuario solicitado");
@@ -100,13 +100,13 @@ public class ClienteServicio implements UserDetailsService {
 
     @Transactional
     public void deshabilitar(String id) throws ErrorServicio {
-        Optional<Cliente> respuesta = clienterepositorio.findById(id);
+        Optional<Cliente> respuesta = clienteRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Cliente cliente = respuesta.get();
             cliente.setBaja(new Date());
 
-            clienterepositorio.save(cliente);
-            
+            clienteRepositorio.save(cliente);
+
             notificacionServicio.enviar("Su cuenta a sido dada de baja, lamentamos no poder cumplir con todas sus expectativas. Estamos en constante crecimiento para tratar de satisfacer las doferentes necesidades de todos nuestros usuarios", "BAJA CUENTA", cliente.getEmail());
         } else {
             throw new ErrorServicio("No se encontro el usuario solicitado");
@@ -115,20 +115,20 @@ public class ClienteServicio implements UserDetailsService {
 
     @Transactional
     public void habilitar(String id) throws ErrorServicio {
-        Optional<Cliente> respuesta = clienterepositorio.findById(id);
+        Optional<Cliente> respuesta = clienteRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Cliente cliente = respuesta.get();
             cliente.setBaja(null);
 
-            clienterepositorio.save(cliente);
-            
+            clienteRepositorio.save(cliente);
+
             notificacionServicio.enviar("Su cuenta a sido dada de alta, nos alegra tenerlo con nosotros nuevamente", "ALTA CUENTA", cliente.getEmail());
         } else {
             throw new ErrorServicio("No se encontro el usuario solicitado");
         }
     }
 
-    public void validar(String nombre, String apellido, String email, String telefono, String contrasenia1, Sexo sexo) throws ErrorServicio {
+    public void validar(String nombre, String apellido, String email, String telefono, String contrasenia1, String contrasenia2) throws ErrorServicio {
 
         if (nombre == null || nombre.isEmpty()) {
             throw new ErrorServicio("El nombre no puede estar vacio");
@@ -145,27 +145,33 @@ public class ClienteServicio implements UserDetailsService {
         if (contrasenia1 == null || contrasenia1.isEmpty() || contrasenia1.length() <= 6) {
             throw new ErrorServicio("La contraseña no puede estar vacia o es menor a 6 caracteres");
         }
-        if (sexo == null) {
-            throw new ErrorServicio("Debe seleccionar una opcion en genero");
+        if (!contrasenia2.equals(contrasenia1)) {
+            throw new ErrorServicio("Las contraseñas no coinciden");
         }
     }
+
+//    @Override
+//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//        Cliente cliente = clienteRepositorio.buscarporEmail(email);
+//
+//        if (cliente != null) {
+//            List<GrantedAuthority> permisos = new ArrayList<>();
+//
+//            GrantedAuthority p1 = new SimpleGrantedAuthority("MODULO_FOTOS");
+//            permisos.add(p1);
+//            GrantedAuthority p2 = new SimpleGrantedAuthority("MODULO_CLIENTES");
+//            permisos.add(p2);
+//            User user = new User(cliente.getEmail(), cliente.getContrasenia1(), permisos);
+//
+//            return user;
+//        } else {
+//            return null;
+//        }
+//    }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Cliente cliente = clienterepositorio.buscarPorEmail(email);
-
-        if (cliente != null) {
-            List<GrantedAuthority> permisos = new ArrayList<>();
-
-            GrantedAuthority p1 = new SimpleGrantedAuthority("MODULO_FOTOS");
-            permisos.add(p1);
-            GrantedAuthority p2 = new SimpleGrantedAuthority("MODULO_CLIENTES");
-            permisos.add(p2);
-            User user = new User(cliente.getEmail(), cliente.getContrasenia1(), permisos);
-
-            return user;
-        } else {
-            return null;
-        }
+    public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }

@@ -47,30 +47,36 @@
             </div>
         </nav>
 
-        <form id="formulario" th:action="@{/CrearCuenta/CrearUsuario}" method="post">
+        <form id="formulario" th:action="@{/CrearCuenta/CrearUsuario}" method="post" enctype="multipart/form-data">
+
+            <p th:if="${error != null}" th:text="${error}" style="color:red;"></p>
             <body>
                 <h2>Registrar un usuario</h2>
 
                 <p>Nombre del usuario</p>
-                <input type="text" class="form-inline" name="nombre" placeholder="Pablo">
+                <input type="text" class="form-inline" name="nombre" placeholder="Pablo" th:valaue="${nombre}">
                 <p>Apellido del usuario</p>
-                <input type="text" class="form-inline" name="apellido" placeholder="Perez">
-                <p>Genero con el que se identifica</p>
-<!--                <select name="sexo">
-                    <option>Seleccionar</option>
-                    <option>Masculino</option>
-                    <option>Femenino</option>
-                    <option>Prefiero no decir</option>
-                </select>-->
+                <input type="text" class="form-inline" name="apellido" placeholder="Perez" th:valaue="${apellido}">
+                <p>Foto de perfil</p>
+                <input type="file" class="form-inline" name="archivo">
+                <!--<p>Genero con el que se identifica</p>-->
+                <!--                <select name="sexo">
+                                    <option>Seleccionar</option>
+                                    <option>Masculino</option>
+                                    <option>Femenino</option>
+                                    <option>Prefiero no decir</option>
+                                </select>-->
                 <p>Numero de documento</p>
-                <input type="number" class="form-inline" name="documento" placeholder="123456789">
+                <input type="number" class="form-inline" name="documento" placeholder="123456789" th:valaue="${documento}">
                 <p>Numero de telefono</p>
-                <input type="number" class="form-inline" name="telefono" placeholder="261-5-458761">
+                <input type="number" class="form-inline" name="telefono" placeholder="261-5-458761" th:valaue="${telefono}">
+                <p>Ingrese su email</p>
+                <input type="text" class="form-inline" name="email" placeholder="ejemplo@hotmail.com" th:valaue="${email}">
                 <p>Contraseña</p>
                 <a>La contraseña debe tener una longitud de 6 caracteres o más</a>
-                <input type="password" class="form-inline" name="contrasenia1">
+                <input type="password" class="form-inline" name="contrasenia1" th:valaue="${contrasenia1}">
                 <p>Repetir contraseña</p>
-                <input type="password" class="form-inline" name="contrasenia2">
+                <input type="password" class="form-inline" name="contrasenia2" th:valaue="${contrasenia2}">
                 <button type="submit" class="btn btn-primary my-2">Registrar usuario</button>
                 <button type="reset" class="btn btn-primary my-2">Borrar</button>
                 <p><a id="volver" class="btn btn-primary my-2" href="/" >Volver</a>

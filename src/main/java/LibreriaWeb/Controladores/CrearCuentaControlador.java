@@ -5,7 +5,7 @@
  */
 package LibreriaWeb.Controladores;
 
-import LibreriaWeb.Enumeraciones.Sexo;
+import LibreriaWeb.Errores.ErrorServicio;
 import LibreriaWeb.Servicios.ClienteServicio;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -35,20 +36,31 @@ public class CrearCuentaControlador {
 
     @PostMapping("/CrearUsuario")
     public String guardar(ModelMap modelo, @RequestParam @Nullable String nombre,
-                                           @RequestParam @Nullable String apellido,
-                                           @RequestParam @Nullable Long documento,
-//                                           @RequestParam @Nullable String sexo,
-                                           @RequestParam @Nullable String telefono,
-                                           @RequestParam @Nullable String contrasenia1, 
-                                           @RequestParam @Nullable String contrasenia2) throws Exception {
+            @RequestParam @Nullable String apellido,
+            @Nullable MultipartFile archivo,
+            @RequestParam @Nullable Long documento,
+            @RequestParam @Nullable String email,
+            @RequestParam @Nullable String telefono,
+            @RequestParam @Nullable String contrasenia1,
+            @RequestParam @Nullable String contrasenia2) throws Exception {
         try {
-            cl.crearCliente(nombre, apellido, 0, nombre, telefono, contrasenia1, Sexo.FEMENINO);
-            modelo.put("exito", "Registro exitoso");
-            return "redirect:/IniciarSesion";
-        } catch (Exception ex) {
+            cl.crearCliente(archivo, nombre, apellido, documento, email, telefono, contrasenia1, contrasenia2);
+           
+        } catch (ErrorServicio ex) {
             Logger.getLogger(CrearCuentaControlador.class.getName()).log(Level.SEVERE, null, ex);
             modelo.put("error", ex.getMessage());
+            modelo.put("nombre", nombre);
+            modelo.put("apeliido", apellido);
+            modelo.put("documento", documento);
+            modelo.put("email", email);
+            modelo.put("telefono", telefono);
+            modelo.put("contrasenia1", contrasenia1);
+            modelo.put("contrasenia2", contrasenia2);
+            
             return "redirect:/CrearCuenta";
         }
+         modelo.put("exito", "Bienvenido a History Book");
+         modelo.put("descripcion", "Tu usuario fue registrado de manera satisfactoria");
+        return "redirect:/IniciarSesion";
     }
 }

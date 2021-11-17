@@ -35,7 +35,7 @@ public class LibroServicio {
             throw new Exception("El nombre del libro no puede estar vacio");
         }
         if (anio == null) {
-            throw new Exception("El anio del libro no puede estar vacio");
+            throw new Exception("El año del libro no puede estar vacio");
         }
         if (ejemplares == null || ejemplares <= 0) {
             throw new Exception("La cantidad de ejemplares debe ser mayor a 0");
