@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -33,11 +34,13 @@ public class LibroControlador {
 
     @GetMapping("")
     public ModelAndView CargarLibro() {
-        return new ModelAndView("CargarLibro");
+        ModelAndView mav = new ModelAndView("CargarLibro");
+        mav.addObject("title", "CargarLibro");
+        return mav;
     }
 
     @PostMapping("/PersistirLibro")
-    public String guardar(ModelMap modelo, @RequestParam @Nullable Long isbn, @RequestParam @Nullable String titulo, @RequestParam @Nullable Integer anio, @RequestParam @Nullable Integer ejemplares, @RequestParam @Nullable Boolean alta, @RequestParam @Nullable String NombreAutor, @RequestParam @Nullable String NombreEditorial) throws Exception {
+    public String guardar(RedirectAttributes atributo, @RequestParam @Nullable Long isbn, @RequestParam @Nullable String titulo, @RequestParam @Nullable Integer anio, @RequestParam @Nullable Integer ejemplares, @RequestParam @Nullable Boolean alta, @RequestParam @Nullable String NombreAutor, @RequestParam @Nullable String NombreEditorial) throws Exception {
         try {
             Autor autor = new Autor();
             autor.setNombre(NombreAutor);
@@ -47,10 +50,10 @@ public class LibroControlador {
 
         } catch (Exception ex) {
             Logger.getLogger(LibroControlador.class.getName()).log(Level.SEVERE, null, ex);
-            modelo.put("error", ex.getMessage());
-            return "/CargarLibro";
+            atributo.addFlashAttribute("error", ex.getMessage());
+            return "redirect:/CargarLibro";
         }
-        modelo.put("exito", "El libro se ha registrado exitosamente");
-        return "/CargarLibro";
+        atributo.addFlashAttribute("exito", "El libro se ha registrado exitosamente");
+        return "redirect:/CargarLibro";
     }
 }

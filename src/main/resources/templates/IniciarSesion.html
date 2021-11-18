@@ -48,14 +48,11 @@
         </nav>
 
         <form action="/logincheck" method="POST">
-            
-            <p th:if="${error != null}" th:text="${error}" style="color:red"></p>
-            
+      
             <div class="form-group">
                 <h2>Iniciar sesión</h2>
 
-                <h2 class="display-4" th:text="${exito}"></h2>
-                <p th:text="${descripcion}"></p>
+                <p th:if="${error != null}" th:text="${error}" style="color:red"></p>
 
                 <label for="exampleInputEmail1">Email:</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp" placeholder="Ingrese su email">

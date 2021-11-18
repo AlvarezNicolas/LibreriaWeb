@@ -5,6 +5,7 @@
  */
 package LibreriaWeb.Controladores;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +21,15 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/IniciarSesion")
 public class IniciarSesionControlador {
 
+    @PreAuthorize("hasAnyRole('Role_USUARIO_REGISTRADO')")
     @GetMapping("")
-    public ModelAndView IniciarSesion(@RequestParam(required = false) String error, ModelMap modelo) {
+    public ModelAndView IniciarSesion(@RequestParam(required = false) String error, @RequestParam(required = false) String logout, ModelMap modelo) {
         if (error != null) {
             modelo.put("error", "Nombre de usuario o contraseña incorrectos");
+            if (logout != null) {
+                modelo.put("exito", "Usted a abandonado la sesión");
+            }
         }
-        return new ModelAndView("IniciarSesion");
+        return new ModelAndView("/");
     }
 }

@@ -7,11 +7,9 @@ package LibreriaWeb.Servicios;
 
 import LibreriaWeb.Entidades.Cliente;
 import LibreriaWeb.Entidades.Foto;
-import LibreriaWeb.Enumeraciones.Sexo;
 import LibreriaWeb.Errores.ErrorServicio;
 import LibreriaWeb.Repositorios.ClienteRepositorio;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -57,7 +55,7 @@ public class ClienteServicio implements UserDetailsService {
         String encriptada2 = new BCryptPasswordEncoder().encode(contrasenia2);
         cliente.setContrasenia1(encriptada2);
         cliente.setEmail(email);
-        cliente.setAlta(new Date());
+        cliente.setAlta(true);
 
         Foto foto = fotoServicio.guardar(archivo);
         cliente.setFoto(foto);
@@ -103,7 +101,7 @@ public class ClienteServicio implements UserDetailsService {
         Optional<Cliente> respuesta = clienteRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Cliente cliente = respuesta.get();
-            cliente.setBaja(new Date());
+            cliente.setAlta(false);
 
             clienteRepositorio.save(cliente);
 
@@ -118,7 +116,7 @@ public class ClienteServicio implements UserDetailsService {
         Optional<Cliente> respuesta = clienteRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Cliente cliente = respuesta.get();
-            cliente.setBaja(null);
+            cliente.setAlta(true);
 
             clienteRepositorio.save(cliente);
 
@@ -150,28 +148,20 @@ public class ClienteServicio implements UserDetailsService {
         }
     }
 
-//    @Override
-//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        Cliente cliente = clienteRepositorio.buscarporEmail(email);
-//
-//        if (cliente != null) {
-//            List<GrantedAuthority> permisos = new ArrayList<>();
-//
-//            GrantedAuthority p1 = new SimpleGrantedAuthority("MODULO_FOTOS");
-//            permisos.add(p1);
-//            GrantedAuthority p2 = new SimpleGrantedAuthority("MODULO_CLIENTES");
-//            permisos.add(p2);
-//            User user = new User(cliente.getEmail(), cliente.getContrasenia1(), permisos);
-//
-//            return user;
-//        } else {
-//            return null;
-//        }
-//    }
-
     @Override
-    public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Cliente cliente = clienteRepositorio.buscarporEmail(email);
 
+        if (cliente != null) {
+            List<GrantedAuthority> permisos = new ArrayList<>();
+
+            GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_USUARIO_REGISTRADO");
+            permisos.add(p1);
+
+            User user = new User(cliente.getEmail(), cliente.getContrasenia1(), permisos);
+            return user;
+        } else {
+            return null;
+        }
+    }
 }

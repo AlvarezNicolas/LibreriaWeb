@@ -9,6 +9,6 @@ package LibreriaWeb.Enumeraciones;
  *
  * @author anico
  */
-public enum Sexo {
+public enum Genero {
     MASCULINO, FEMENINO, PREFIERO_NO_DECIR;
 }

@@ -38,7 +38,7 @@ public class SeguridadConfiguracion extends WebSecurityConfigurerAdapter{
         System.out.println("=========================================");
             http.headers().frameOptions().sameOrigin().and()
                 .authorizeRequests()
-                        .antMatchers("/css/*", "/js/*", "/IniciarSesion", "/CrearCuenta")
+                        .antMatchers("/css/*", "/js/*", "/img", "/**")
                         .permitAll()
                 .and().formLogin()
                         .loginPage("/IniciarSesion")
