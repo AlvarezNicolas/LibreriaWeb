@@ -8,9 +8,9 @@ package LibreriaWeb.Servicios;
 import LibreriaWeb.Entidades.Editorial;
 import LibreriaWeb.Repositorios.EditorialRepositorio;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -35,11 +35,11 @@ public class EditorialServicio {
     }
     
     @Transactional
-    public void modificarEditorial(String id, String nombre, Boolean alta) throws Exception{
+    public void modificarEditorial(String idEditorial, String nombre, Boolean alta) throws Exception{
         
         validar(nombre);
         
-        Optional<Editorial> respuesta = EditorialRepositorio.findById(id);
+        Optional<Editorial> respuesta = EditorialRepositorio.findById(idEditorial);
         if (respuesta.isPresent()) {
             Editorial editorial = respuesta.get();
            editorial.setNombre(nombre);
@@ -51,11 +51,11 @@ public class EditorialServicio {
     }
     
     @Transactional
-    public void eliminarEditorial(String id, String nombre) throws Exception{
+    public void eliminarEditorial(String idEditorial, String nombre) throws Exception{
         
         validar(nombre);
         
-        Optional<Editorial> respuesta = EditorialRepositorio.findById(id);
+        Optional<Editorial> respuesta = EditorialRepositorio.findById(idEditorial);
         if (respuesta.isPresent()) {
             Editorial editorial = respuesta.get();
             editorial.setAlta(false);

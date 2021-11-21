@@ -11,9 +11,9 @@ import LibreriaWeb.Entidades.Libro;
 import LibreriaWeb.Repositorios.LibroRepositorio;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -60,11 +60,11 @@ public class LibroServicio {
     }
 
     @Transactional
-    public Libro modificarLibro(String id, String titulo, Integer ejemplares) throws Exception {
+    public Libro modificarLibro(String idLibro, String titulo, Integer ejemplares) throws Exception {
 
         validarDatos(titulo, ejemplares);
 
-        Libro libro = libroRepositorio.buscarPorId(id);
+        Libro libro = libroRepositorio.buscarPorId(idLibro);
         libro.setTitulo(titulo);
         libro.setEjemplares(ejemplares);
 
@@ -73,21 +73,15 @@ public class LibroServicio {
     }
 
     @Transactional
-    public void eliminarLibro(String id) throws Exception {
+    public void eliminarLibro(String idLibro) throws Exception {
 
-        Optional<Libro> respuesta = libroRepositorio.findById(id);
+        Optional<Libro> respuesta = libroRepositorio.findById(idLibro);
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
             libro.setAlta(false);
             libroRepositorio.save(libro);
         } else {
             throw new Exception("El autor que desea eliminar no existe o ya a sido eliminado anteriormente");
-        }
-    }
-
-    private void validar(String titulo) throws Exception {
-        if (titulo == null || titulo.isEmpty()) {
-            throw new Exception("El nombre del libro no puede estar vacio");
         }
     }
 
@@ -100,12 +94,14 @@ public class LibroServicio {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<Libro> listarLibros() {
         List<Libro> libros = libroRepositorio.ListarLibros();
         return libros;
     }
 
-    public Libro listarLibro(String id) {
-        return libroRepositorio.buscarPorId(id);
+    @Transactional(readOnly = true)
+    public Libro listarLibro(String idLibro) {
+        return libroRepositorio.buscarPorId(idLibro);
     }
 }

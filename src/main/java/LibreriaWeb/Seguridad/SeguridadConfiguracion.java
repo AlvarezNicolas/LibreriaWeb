@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package LibreriaWeb;
+package LibreriaWeb.Seguridad;
 
 import LibreriaWeb.Servicios.ClienteServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class SeguridadConfiguracion extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception{
         
         System.out.println("=========================================");
-            http.headers().frameOptions().sameOrigin().and()
+            http
                 .authorizeRequests()
                         .antMatchers("/css/*", "/js/*", "/img", "/**")
                         .permitAll()

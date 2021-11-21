@@ -26,7 +26,7 @@ public class Foto implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+    private String idFoto;
     private String nombre;
     private String mime;
 

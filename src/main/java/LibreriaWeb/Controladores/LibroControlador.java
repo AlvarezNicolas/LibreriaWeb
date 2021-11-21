@@ -44,8 +44,10 @@ public class LibroControlador {
         try {
             Autor autor = new Autor();
             autor.setNombre(NombreAutor);
+            autor.setAlta(true);
             Editorial editorial = new Editorial();
             editorial.setNombre(NombreEditorial);
+            editorial.setAlta(true);
             ls.PersistirLibro(titulo, anio, isbn, ejemplares, autor, editorial, Boolean.TRUE);
 
         } catch (Exception ex) {

@@ -22,7 +22,7 @@ public interface LibroRepositorio extends JpaRepository<Libro, String> {
     @Query("SELECT c FROM Libro c where alta=1")
     public List<Libro> ListarLibros();
 
-    @Query("SELECT c FROM Libro c WHERE c.id = :id")
-    public Libro buscarPorId(@Param("id") String id);
+    @Query("SELECT c FROM Libro c WHERE c.idLibro = :idLibro")
+    public Libro buscarPorId(@Param("idLibro") String idLibro);
     
 }

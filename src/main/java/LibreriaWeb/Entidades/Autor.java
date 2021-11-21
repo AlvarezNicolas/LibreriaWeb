@@ -23,7 +23,7 @@ public class Autor implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    protected String id;
+    protected String idAutor;
     protected String nombre;
     protected Boolean alta;
 

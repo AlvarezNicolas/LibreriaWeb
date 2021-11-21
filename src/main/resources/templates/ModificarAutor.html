@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <!--    <link rel="stylesheet" href="IniciarSesion.css">-->
+        <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqcVj_HJ-NcAfu62LfycYrNxYKX-fwaou-Qw&usqp=CAU" />
+        <title>Lista autores</title>
+    </head>
+
+    <body>
+        
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+
+        <h1><mark>Modificación de Libro</mark></h1><br><br><br>
+
+        <form id="formulario" th:action="@{/CargarAutor/modificar/__${autor.idAutor}__}" method="POST">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Nombre del Autor</label>
+                <input th:value="${autor.nombre}" type="text" class="form-control" name="nombre">
+                <button type="submit" class="btn btn-primary">Confirmar modificación</button>
+                <p><a id="volver" class="btn btn-danger" href="/ListaAutores" >Cancelar</a>
+                    </form> 
+
+                <footer th:replace="/fragments/footer :: footer"></footer>
+
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+                </body>
+                </html>

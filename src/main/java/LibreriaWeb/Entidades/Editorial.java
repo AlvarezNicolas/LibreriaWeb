@@ -23,7 +23,7 @@ public class Editorial implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    protected String id;
+    protected String idEditorial;
     protected String nombre;
     protected Boolean alta;
 

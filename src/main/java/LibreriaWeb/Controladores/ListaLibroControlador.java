@@ -5,7 +5,6 @@
  */
 package LibreriaWeb.Controladores;
 
-import LibreriaWeb.Entidades.Autor;
 import LibreriaWeb.Entidades.Libro;
 import LibreriaWeb.Servicios.LibroServicio;
 import java.util.List;

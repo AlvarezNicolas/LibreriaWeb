@@ -1,72 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="CargarAutor.css">
-    <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqcVj_HJ-NcAfu62LfycYrNxYKX-fwaou-Qw&usqp=CAU" />
-    <title>Cargar libros</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <link rel="stylesheet" href="CargarAutor.css">
+        <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqcVj_HJ-NcAfu62LfycYrNxYKX-fwaou-Qw&usqp=CAU" />
+        <title>Cargar libros</title>
+    </head>
+    <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Inicio</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/CargarLibro">Libros <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/CargarAutor">Autores</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Menú
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/IniciarSesion">Iniciar sesión</a>
-                <a class="dropdown-item" href="/CrearCuenta">Crear cuenta</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Solicitar un préstamo</a>
-              </div>
-            </li>
-            <li class="nav-item">
-           <!--    <a class="nav-link disabled" href="#">Disabled</a> -->
-            </li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="El señor de..." aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-          </form>
-        </div>
-      </nav>
-    
-    <form id="formulario" th:action="@{/CargarAutor/PersistirAutor}" method="post">
-        <h3>Creación de autor</h3>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Nombre completo del autor</label>
-          <input type="text" class="form-control" name="nombre" placeholder="Pedro José Maria">
-        </div>
-        <input type="hidden" name="alta" value="true">
-        <button type="submit" class="btn btn-primary">Crear autor</button>
-        <p><a id="volver" class="btn btn-primary my-2" href="/" >Volver</a>
-      </form> 
-    
-      <!-- Footer -->
-  <footer class="py-5 bg-black">
-    <div class="container">
-      <p class="m-0 text-center text-white small">Copyright &copy; Nicolas Alvarez 2021</p>
-    </div>
-    <!-- /.container -->
-  </footer>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-</body>
+        <form id="formulario" th:action="@{/CargarAutor/PersistirAutor}" method="post">
+            <h3>Creación de autor</h3>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Nombre completo del autor</label>
+                <input type="text" class="form-control" name="nombre" placeholder="Pedro José Maria">
+            </div>
+            <input type="hidden" name="alta" value="true">
+            <button type="submit" class="btn btn-primary">Crear autor</button>
+            <p><a id="volver" class="btn btn-primary my-2" href="/" >Volver</a>
+        </form> 
+
+        <footer th:replace="/fragments/footer :: footer"></footer>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    </body>
 </html>

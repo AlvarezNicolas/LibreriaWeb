@@ -9,9 +9,9 @@ import LibreriaWeb.Entidades.Foto;
 import LibreriaWeb.Errores.ErrorServicio;
 import LibreriaWeb.Repositorios.FotoRepositorio;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -25,7 +25,7 @@ public class FotoServicio {
     private FotoRepositorio fotoRepositorio;
 
     @Transactional
-    public Foto guardar(MultipartFile archivo) throws ErrorServicio {
+    public Foto guardar(MultipartFile archivo) throws Exception {
 
         if (archivo != null) {
             try {
@@ -43,14 +43,14 @@ public class FotoServicio {
     }
 
     @Transactional
-    public Foto actualizar(String id, MultipartFile archivo) throws ErrorServicio {
+    public Foto actualizar(String idFoto, MultipartFile archivo) throws ErrorServicio {
 
         if (archivo != null) {
             try {
                 Foto foto = new Foto();
 
-                if (id != null) {
-                    Optional<Foto> respuesta = fotoRepositorio.findById(id);
+                if (idFoto != null) {
+                    Optional<Foto> respuesta = fotoRepositorio.findById(idFoto);
                     if (respuesta.isPresent()) {
                         foto = respuesta.get();
                     }

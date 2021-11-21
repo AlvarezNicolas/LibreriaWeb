@@ -29,7 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/CrearCuenta")
 public class CrearCuentaControlador {
 
-    private ClienteServicio cl;
+    private ClienteServicio cs;
 
     @GetMapping("")
     public ModelAndView CrearCuenta() {
@@ -37,32 +37,26 @@ public class CrearCuentaControlador {
     }
 
     @PostMapping("/CrearUsuario")
-    public String guardar(RedirectAttributes atributo, @RequestParam @Nullable @NonNull String nombre,
-            @RequestParam @Nullable @NonNull String apellido,
-            @Nullable @NonNull MultipartFile archivo,
-            @RequestParam @Nullable @NonNull Long documento,
-            @RequestParam @Nullable @NonNull String email,
-            @RequestParam @Nullable @NonNull String telefono,
-            @RequestParam @Nullable @NonNull String contrasenia1,
-            @RequestParam @Nullable @NonNull String contrasenia2) throws Exception {
+    public String guardar(RedirectAttributes atributo, 
+            @RequestParam @Nullable String nombre,
+            @RequestParam @Nullable String apellido,
+            @Nullable MultipartFile archivo,
+            @RequestParam @Nullable Long documento,
+            @RequestParam @Nullable String email,
+            @RequestParam @Nullable String telefono,
+            @RequestParam @Nullable String contrasenia1,
+            @RequestParam @Nullable String contrasenia2) throws Exception {
         try {
-            cl.crearCliente(archivo, nombre, apellido, documento, email, telefono, contrasenia1, contrasenia2);
-           
-        } catch (ErrorServicio ex) {
+
+            cs.crearCliente(archivo, nombre, apellido, documento, email, telefono, contrasenia1, contrasenia2);
+
+        } catch (Exception ex) {
             Logger.getLogger(CrearCuentaControlador.class.getName()).log(Level.SEVERE, null, ex);
             atributo.addAttribute("error", ex.getMessage());
-            atributo.addAttribute("nombre", nombre);
-            atributo.addAttribute("apeliido", apellido);
-            atributo.addAttribute("documento", documento);
-            atributo.addAttribute("email", email);
-            atributo.addAttribute("telefono", telefono);
-            atributo.addAttribute("contrasenia1", contrasenia1);
-            atributo.addAttribute("contrasenia2", contrasenia2);
-            
             return "redirect:/CrearCuenta";
         }
-         atributo.addAttribute("exito", "Bienvenido a History Book");
-         atributo.addAttribute("descripcion", "Tu usuario fue registrado de manera satisfactoria");
+        atributo.addAttribute("exito", "Bienvenido a History Book");
+        atributo.addAttribute("descripcion", "Tu usuario fue registrado de manera satisfactoria");
         return "redirect:/IniciarSesion";
     }
 }

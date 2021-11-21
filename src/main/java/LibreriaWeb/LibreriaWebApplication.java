@@ -18,7 +18,7 @@ public class LibreriaWebApplication {
     }
 
     @Autowired
-    public void configuredGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(clienteServicio).passwordEncoder(new BCryptPasswordEncoder());
     }
 

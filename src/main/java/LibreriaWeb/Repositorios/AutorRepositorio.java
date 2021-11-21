@@ -6,11 +6,11 @@
 package LibreriaWeb.Repositorios;
 
 import LibreriaWeb.Entidades.Autor;
+import LibreriaWeb.Entidades.Libro;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-//import org.springframework.data.jpa.repository.Query;
-//import org.springframework.data.repository.query.Param;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,11 +19,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AutorRepositorio extends JpaRepository<Autor, String> {
-//    
-//    @Query("SELECT c FROM Libro WHERE c.nomre = :nombre")
-//    public Autor buscarLibroPorAutor(@Param("nombre") String nombre);
-    
-     @Query("SELECT c FROM Autor c WHERE alta=1")
+
+    @Query("SELECT c FROM Autor c WHERE alta=1")
     public List<Autor> ListarAutores();
-    
+
+    @Query("SELECT a FROM Autor a WHERE a.idAutor = :idAutor")
+    public Libro buscarPorId(@Param("idAutor") String idAutor);
+
 }

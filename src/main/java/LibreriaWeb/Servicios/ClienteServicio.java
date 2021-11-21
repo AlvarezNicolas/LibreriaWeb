@@ -12,7 +12,7 @@ import LibreriaWeb.Repositorios.ClienteRepositorio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,6 +22,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -41,7 +44,7 @@ public class ClienteServicio implements UserDetailsService {
     private NotificacionServicio notificacionServicio;
 
     @Transactional
-    public void crearCliente(MultipartFile archivo, String nombre, String apellido, long documento, String email, String telefono, String contrasenia1, String contrasenia2) throws ErrorServicio {
+    public void crearCliente(MultipartFile archivo, String nombre, String apellido, long documento, String email, String telefono, String contrasenia1, String contrasenia2) throws ErrorServicio, Exception {
 
         validar(nombre, apellido, email, telefono, contrasenia1, contrasenia2);
 
@@ -50,10 +53,8 @@ public class ClienteServicio implements UserDetailsService {
         cliente.setNombre(nombre);
         cliente.setApellido(apellido);
         cliente.setTelefono(telefono);
-        String encriptada1 = new BCryptPasswordEncoder().encode(contrasenia1);
-        cliente.setContrasenia1(encriptada1);
-        String encriptada2 = new BCryptPasswordEncoder().encode(contrasenia2);
-        cliente.setContrasenia1(encriptada2);
+        String encriptada = new BCryptPasswordEncoder().encode(contrasenia1);
+        cliente.setContrasenia1(encriptada);
         cliente.setEmail(email);
         cliente.setAlta(true);
 
@@ -66,11 +67,11 @@ public class ClienteServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void modificarCliente(MultipartFile archivo, String id, String nombre, String apellido, String email, String telefono, String contrasenia1, String contrasenia2) throws ErrorServicio {
+    public void modificarCliente(MultipartFile archivo, String idCliente, String nombre, String apellido, String email, String telefono, String contrasenia1, String contrasenia2) throws ErrorServicio {
 
         validar(nombre, apellido, email, telefono, contrasenia1, contrasenia2);
 
-        Optional<Cliente> respuesta = clienteRepositorio.findById(id);
+        Optional<Cliente> respuesta = clienteRepositorio.findById(idCliente);
         if (respuesta.isPresent()) {
             Cliente cliente = respuesta.get();
             cliente.setNombre(nombre);
@@ -82,7 +83,7 @@ public class ClienteServicio implements UserDetailsService {
 
             String idFoto = null;
             if (cliente.getFoto() != null) {
-                idFoto = cliente.getFoto().getId();
+                idFoto = cliente.getFoto().getIdFoto();
             }
 
             Foto foto = fotoServicio.actualizar(idFoto, archivo);
@@ -97,8 +98,8 @@ public class ClienteServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void deshabilitar(String id) throws ErrorServicio {
-        Optional<Cliente> respuesta = clienteRepositorio.findById(id);
+    public void deshabilitar(String idCliente) throws ErrorServicio {
+        Optional<Cliente> respuesta = clienteRepositorio.findById(idCliente);
         if (respuesta.isPresent()) {
             Cliente cliente = respuesta.get();
             cliente.setAlta(false);
@@ -112,8 +113,8 @@ public class ClienteServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void habilitar(String id) throws ErrorServicio {
-        Optional<Cliente> respuesta = clienteRepositorio.findById(id);
+    public void habilitar(String idCliente) throws ErrorServicio {
+        Optional<Cliente> respuesta = clienteRepositorio.findById(idCliente);
         if (respuesta.isPresent()) {
             Cliente cliente = respuesta.get();
             cliente.setAlta(true);
@@ -157,6 +158,10 @@ public class ClienteServicio implements UserDetailsService {
 
             GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_USUARIO_REGISTRADO");
             permisos.add(p1);
+            
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+             HttpSession session = attr.getRequest().getSession(true);
+             session.setAttribute("usuariosession", cliente);
 
             User user = new User(cliente.getEmail(), cliente.getContrasenia1(), permisos);
             return user;

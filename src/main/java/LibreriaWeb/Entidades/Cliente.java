@@ -24,7 +24,7 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+    private String idCliente;
     private long documento;
     private String nombre;
     private String apellido;

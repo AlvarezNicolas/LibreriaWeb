@@ -10,9 +10,9 @@ import LibreriaWeb.Entidades.Libro;
 import LibreriaWeb.Repositorios.AutorRepositorio;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -37,15 +37,14 @@ public class AutorServicio {
     }
     
     @Transactional
-    public void modificarAutor(String id, String nombre, Boolean alta) throws Exception{
+    public void modificarAutor(String idAutor, String nombre) throws Exception{
         
         validar(nombre);
         
-        Optional<Autor> respuesta = autorRepositorio.findById(id);
+        Optional<Autor> respuesta = autorRepositorio.findById(idAutor);
         if (respuesta.isPresent()) {
             Autor autor = respuesta.get();
            autor.setNombre(nombre);
-           autor.setAlta(alta);
            autorRepositorio.save(autor);
         }else{
             throw new Exception("El autor que esta deseando modificar no existe");
@@ -53,9 +52,9 @@ public class AutorServicio {
     }
     
     @Transactional
-    public void eliminarAutor(String id) throws Exception{
+    public void eliminarAutor(String idAutor) throws Exception{
         
-        Optional<Autor> respuesta = autorRepositorio.findById(id);
+        Optional<Autor> respuesta = autorRepositorio.findById(idAutor);
         if (respuesta.isPresent()) {
             Autor autor = respuesta.get();
             autor.setAlta(false);
@@ -71,9 +70,15 @@ public class AutorServicio {
         }
     }
 
+    @Transactional (readOnly = true)
      public List<Autor> listarAutores(){
         List<Autor> autor = autorRepositorio.ListarAutores();
         return autor;
+    }
+     
+     @Transactional (readOnly = true)
+      public Libro listarAutor(String idAutor) {
+        return autorRepositorio.buscarPorId(idAutor);
     }
 
 }
